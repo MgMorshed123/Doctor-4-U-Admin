@@ -17,13 +17,18 @@ const Sidebar = () => {
           </NavLink>
 
           <NavLink>
-            <img src={assets.home_icon} alt="" srcset="" />
-            <p>Dashboard</p>
+            <img src={assets.appointment_icon} alt="" srcset="" />
+            <p>Appointment</p>
           </NavLink>
 
           <NavLink>
-            <img src={assets.home_icon} alt="" srcset="" />
-            <p>Dashboard</p>
+            <img src={assets.add_icon} alt="" srcset="" />
+            <p>Add Doctor</p>
+          </NavLink>
+
+          <NavLink>
+            <img src={assets.people_icon} alt="" srcset="" />
+            <p>Doctor List</p>
           </NavLink>
         </ul>
       )}
