@@ -1,10 +1,66 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AdminContext } from "../context/AdminContext";
+import axios from "axios";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [state, setState] = useState("Admin");
 
+  const { setAToken, backendUrl } = useContext(AdminContext);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
+
+    try {
+      if (state === "Admin") {
+        const { data } = await axios.post(
+          "http://localhost:4000/api/admin/login",
+          {
+            email,
+            password,
+          }
+        );
+
+        if (data.success) {
+          localStorage.setItem("aToken", data.token);
+          setAToken(data.token);
+
+          Swal.fire({
+            title: "Login Successful",
+            icon: "success",
+          });
+        } else {
+          // Backend returned a failure response
+          Swal.fire({
+            title: "Login Failed",
+            text: data.message || "Invalid credentials. Please try again.",
+            icon: "error",
+          });
+        }
+      } else {
+        Swal.fire({
+          title: "Login Unsuccessful",
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      // Handle exceptions (e.g., network errors, server issues)
+      console.error(error);
+
+      Swal.fire({
+        title: "Error",
+        text: error.response?.data?.message || "Something went wrong!",
+        icon: "error",
+      });
+    }
+  };
+
   return (
-    <form className="min-h-[80vh] flex items-center">
+    <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">
       <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-[#5E5E5E] text-sm  shadow-lg ">
         <p className="text-2xl font-semibold m-auto ">
           <span className="text-primary">{state}</span> Login{" "}
@@ -13,18 +69,22 @@ const Login = () => {
         <div className="w-full">
           <p>Email</p>
           <input
+            onChange={(e) => setEmail(e.target.value)}
             className="border border-[#DADADA] rounded w-full p-2 mt-1"
             type="email"
             required
+            value={email}
           />
         </div>
 
         <div className="w-full">
           <p>Password</p>
           <input
+            onChange={(e) => setPassword(e.target.value)}
             className="border border-[#DADADA] rounded w-full p-2 mt-1"
             type="password"
             required
+            value={password}
           />
         </div>
 
