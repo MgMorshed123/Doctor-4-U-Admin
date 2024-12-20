@@ -56,8 +56,69 @@ const AddDoctor = () => {
                 <option value="10 Year"> 10 Year</option>
               </select>
             </div>
+
+            <div>
+              <p>Fees </p>
+              <input type="number" name="" id="" placeholder="fees" required />
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <p>Speciality </p>
+              <select>
+                <option value="General physician">General physician</option>
+                <option value="Gynecologist">Gynecologist</option>
+                <option value="Dermatologist">Dermatologist</option>
+                <option value="Pediatricians">Pediatricians</option>
+                <option value="Neurologist">Neurologist</option>
+                <option value="Gastroenterologist">Gastroenterologist</option>
+              </select>
+            </div>
+
+            <div>
+              <p>Education </p>
+              <input
+                type="text"
+                name=""
+                id=""
+                placeholder="Education"
+                required
+              />
+            </div>
+
+            <div>
+              <p>Address </p>
+              <input
+                type="text"
+                name=""
+                id=""
+                placeholder="Address 1"
+                required
+              />
+
+              <input
+                type="text"
+                name=""
+                id=""
+                placeholder="Address 2"
+                required
+              />
+            </div>
           </div>
         </div>
+
+        <div>
+          <p>About Doctor </p>
+          <textarea
+            name=""
+            placeholder="Write About Doctor"
+            rows={5}
+            id=""
+          ></textarea>
+        </div>
+
+        <button>Add Doctor</button>
       </div>
     </form>
   );
