@@ -5,11 +5,11 @@ import { NavLink } from "react-router-dom";
 import { assets } from "../assets/assets_admin/assets";
 
 const Sidebar = () => {
-  const { aToken } = useContext(AdminContext);
+  const { atoken } = useContext(AdminContext);
 
   return (
     <div className="min-h-screen bg-white border-r ">
-      {aToken && (
+      {atoken && (
         <ul className="text-[#515151] mt-5">
           <NavLink
             className={({ isActive }) =>

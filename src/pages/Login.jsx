@@ -3,14 +3,16 @@ import { AdminContext } from "../context/AdminContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [state, setState] = useState("Admin");
 
-  const { setAToken, backendUrl } = useContext(AdminContext);
+  const { setatoken, backendUrl } = useContext(AdminContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
@@ -26,8 +28,9 @@ const Login = () => {
         );
 
         if (data.success) {
-          localStorage.setItem("aToken", data.token);
-          setAToken(data.token);
+          localStorage.setItem("atoken", data.token);
+          setatoken(data.token);
+          navigate("/admin-dashboard");
 
           Swal.fire({
             title: "Login Successful",

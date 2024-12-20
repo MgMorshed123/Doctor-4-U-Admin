@@ -4,12 +4,12 @@ import { AdminContext } from "../context/AdminContext";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const { aToken, setAToken } = useContext(AdminContext);
+  const { atoken, setatoken } = useContext(AdminContext);
 
   const logout = () => {
     navigate("/");
-    aToken && setAToken("");
-    aToken && localStorage.removeItem("aToken");
+    atoken && setatoken("");
+    atoken && localStorage.removeItem("atoken");
   };
 
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Navbar = () => {
           srcset=""
         />
         <p className="border py-0.5 rounded-full text-gray-600 ">
-          {aToken ? "Admin" : "Doctor"}
+          {atoken ? "Admin" : "Doctor"}
         </p>
       </div>
       <button

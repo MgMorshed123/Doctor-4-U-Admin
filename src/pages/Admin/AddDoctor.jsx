@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { assets } from "../../assets/assets_admin/assets";
+import { AdminContext } from "../../context/AdminContext";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const AddDoctor = () => {
   const [docImg, setDocImg] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [experinece, setExperience] = useState("1 Year");
+  const [experience, setExperience] = useState("1 Year");
   const [fees, setFees] = useState("");
   const [about, setAbout] = useState("");
   const [speciality, setSpeciality] = useState("General physician");
@@ -14,8 +17,70 @@ const AddDoctor = () => {
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
 
+  const { backendUrl, atoken } = useContext(AdminContext);
+  console.log(atoken);
+
+  const onSubmitHandler = async (event) => {
+    event.preventDefault();
+
+    try {
+      if (!docImg) {
+        return Swal.fire({
+          title: "Image not Selected",
+          icon: "error",
+        });
+      }
+
+      const formData = new FormData();
+
+      formData.append("image", docImg);
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("experience", experience); // Fixed typo
+      formData.append("fees", Number(fees)); // Fixed typo
+      formData.append("about", about);
+      formData.append("speciality", speciality);
+      formData.append("degree", degree);
+      formData.append(
+        "address",
+        JSON.stringify({ line1: address1, line2: address2 })
+      );
+
+      const { data } = await axios.post(
+        `${backendUrl}/api/admin/add-doctor`,
+        formData,
+        {
+          headers: {
+            atoken: atoken,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (data.success) {
+        Swal.fire({
+          title: data.message,
+          icon: "success",
+        });
+      }
+
+      console.log("formdata", data);
+    } catch (error) {
+      console.error(
+        "Error submitting form:",
+        error.response?.data || error.message
+      );
+
+      Swal.fire({
+        title: error.response?.data?.message || error.message,
+        icon: "error",
+      });
+    }
+  };
+
   return (
-    <form className="m-5 w-full">
+    <form onSubmit={onSubmitHandler} className="m-5 w-full">
       <p className="mb-3 text-lg font-medium">Add Doctor</p>
 
       <div className="bg-white px-8 border rounded w-full max-w-4xl max-h-[80vh] overflow-y-scroll ">
@@ -87,7 +152,7 @@ const AddDoctor = () => {
               <p> Experience </p>
               <select
                 onChange={(e) => setExperience(e.target.value)}
-                value={experinece}
+                value={experience}
                 className="border rounded px-3 py-2"
               >
                 <option value="1 Year"> 1 Year</option>

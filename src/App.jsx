@@ -12,9 +12,9 @@ import AddDoctor from "./pages/Admin/AddDoctor";
 import DoctorList from "./pages/Admin/DoctorList";
 
 const App = () => {
-  const { aToken } = useContext(AdminContext);
+  const { atoken } = useContext(AdminContext);
 
-  return aToken ? (
+  return atoken ? (
     <div className="bg-[#F8F9FD]">
       <ToastContainer />
       <Navbar></Navbar>
