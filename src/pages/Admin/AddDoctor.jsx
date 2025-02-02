@@ -3,6 +3,7 @@ import { assets } from "../../assets/assets_admin/assets";
 import { AdminContext } from "../../context/AdminContext";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useThemeStore } from "@/context/useThems";
 
 const AddDoctor = () => {
   const [docImg, setDocImg] = useState(false);
@@ -20,20 +21,22 @@ const AddDoctor = () => {
   const { backendUrl, atoken } = useContext(AdminContext);
   console.log(atoken);
 
+  const { theme } = useThemeStore();
+
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
     try {
-      if (!docImg) {
-        return Swal.fire({
-          title: "Image not Selected",
-          icon: "error",
-        });
-      }
+      // if (!docImg) {
+      //   return Swal.fire({
+      //     title: "Image not Selected",
+      //     icon: "error",
+      //   });
+      // }
 
       const formData = new FormData();
 
-      formData.append("image", docImg);
+      // formData.append("image", docImg);
       formData.append("name", name);
       formData.append("email", email);
       formData.append("password", password);
@@ -80,10 +83,21 @@ const AddDoctor = () => {
   };
 
   return (
-    <form onSubmit={onSubmitHandler} className="m-5 w-full">
+    <form
+      onSubmit={onSubmitHandler}
+      className={`m-5 w-full  ${
+        theme === "dark" ? "bg-black text-white" : "bg-white text-black"
+      }`}
+    >
       <p className="mb-3 text-lg font-medium">Add Doctor</p>
 
-      <div className="bg-white px-8 border rounded w-full max-w-4xl max-h-[80vh] overflow-y-scroll ">
+      <div
+        className={` ${
+          theme === "dark"
+            ? "bg-black text-white border-white rounded"
+            : "bg-white text-black"
+        } px-8 border rounded w-full max-w-4xl max-h-[80vh] overflow-y-scroll`}
+      >
         <div className="flex items-center gap-4 mb-8 text-gray-500">
           <label htmlFor="doc-img">
             <img

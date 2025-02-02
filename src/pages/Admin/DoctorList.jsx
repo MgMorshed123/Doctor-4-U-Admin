@@ -36,7 +36,13 @@ const DoctorList = () => {
               <p className="text-zinc-600  text-sm ">{item.speciality}</p>
 
               <div>
-                <input type="checkbox" checked={item.available} name="" id="" />
+                <input
+                  onClick={() => changeAvailability(item._id)}
+                  type="checkbox"
+                  checked={item.available}
+                  name=""
+                  id=""
+                />
                 <p>Available</p>
               </div>
             </div>

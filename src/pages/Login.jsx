@@ -4,11 +4,14 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { DoctorContext } from "../context/DoctorContext";
 
 const Login = () => {
   const [state, setState] = useState("Admin");
 
   const { setatoken, backendUrl } = useContext(AdminContext);
+
+  const { dToken, setDToken } = useContext(DoctorContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,6 +30,7 @@ const Login = () => {
           }
         );
 
+        console.log(data);
         if (data.success) {
           localStorage.setItem("atoken", data.token);
           setatoken(data.token);
@@ -36,19 +40,27 @@ const Login = () => {
             title: "Login Successful",
             icon: "success",
           });
-        } else {
-          // Backend returned a failure response
-          Swal.fire({
-            title: "Login Failed",
-            text: data.message || "Invalid credentials. Please try again.",
-            icon: "error",
-          });
         }
       } else {
-        Swal.fire({
-          title: "Login Unsuccessful",
-          icon: "error",
-        });
+        // Backend returned a failure response
+        const { data } = await axios.post(
+          "http://localhost:4000/api/doctor/doctor-login",
+          {
+            email,
+            password,
+          }
+        );
+
+        if (data.success) {
+          localStorage.setItem("dToken", data.token);
+          setDToken(data.token);
+          // navigate("/admin-dashboard");
+
+          Swal.fire({
+            title: "Login Successful",
+            icon: "success",
+          });
+        }
       }
     } catch (error) {
       // Handle exceptions (e.g., network errors, server issues)
@@ -66,7 +78,7 @@ const Login = () => {
     <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">
       <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-[#5E5E5E] text-sm  shadow-lg ">
         <p className="text-2xl font-semibold m-auto ">
-          <span className="text-primary">{state}</span> Login{" "}
+          <span className="text-blue-600">{state}</span> Login{" "}
         </p>
 
         <div className="w-full">

@@ -8,7 +8,7 @@ import DoctorContextProvider from "./context/DoctorContext.jsx";
 import AppContextProvider from "./context/AppContext.jsx";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-
+// import "@scadcn/ui/styles.css";
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <AdminContextProvider>
